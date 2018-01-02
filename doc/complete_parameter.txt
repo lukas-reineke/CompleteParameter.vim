@@ -115,6 +115,12 @@ to goto next or previous parameter.
 default: 0  >
   let g:complete_parameter_use_ultisnips_mapping = 0
 <
+                                     *g:complete_parameter_use_typescript_for_javascript*
+* g:complete_parameter_use_typescript_for_javascript
+If this options is 1 typescript completion will be used for javascript files.
+default: 0  >
+  let g:complete_parameter_use_typescript_for_javascript = 0
+<
                                              *g:complete_parameter_echo_signature*
 * g:complete_parameter_echo_signature
 It will echo signature if this option is 1. (need to `set noshowmode` or `set cmdheight=2`) 

@@ -26,6 +26,9 @@ function! cmp#init() abort "{{{
   let g:complete_parameter_log_level = get(g:, 'complete_parameter_log_level', 5)
 
   let g:complete_parameter_use_ultisnips_mappings = get(g:, 'complete_parameter_use_ultisnips_mappings', 0)
+
+  let g:complete_parameter_use_typescript_for_javascript = get(g:, 'complete_parameter_use_typescript_for_javascript', 0)
+
 endfunction "}}}
 
 function! cmp#default_echos(completed_item)
@@ -211,6 +214,10 @@ function! cmp#complete(failed_insert) abort "{{{
   if empty(filetype)
     call <SID>debug_log('filetype is empty')
     return <SID>failed_event(a:failed_insert)
+  endif
+
+  if filetype == 'javascript' && g:complete_parameter_use_typescript_for_javascript
+      let filetype = 'typescript'
   endif
 
   try
