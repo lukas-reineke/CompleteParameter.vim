@@ -161,16 +161,16 @@ function! s:failed_event(failed_insert) abort "{{{ return the text to insert and
   else
     let keys =  cmp#default_failed_insert(a:failed_insert)
   endif
-  let content = getline(line('.'))
+  " let content = getline(line('.'))
   let parameter = a:failed_insert
-  let pos = col('.') - 2
-  if pos > 0
-    let posEnd = pos + len(parameter) - 1
-    if content[pos : posEnd] !=# parameter &&
-          \content[pos] ==# parameter[0] 
-      let parameter = substitute(parameter, '\m.\(.*\)', '\1', '')
-    endif
-  endif
+  " let pos = col('.') - 2
+  " if pos > 0
+  "   let posEnd = pos + len(parameter) - 1
+  "   if content[pos : posEnd] !=# parameter &&
+  "         \content[pos] ==# parameter[0]
+  "     let parameter = substitute(parameter, '\m.\(.*\)', '\1', '')
+  "   endif
+  " endif
 
   let keys = parameter . keys
   call <SID>trace_log(keys)
