@@ -1,6 +1,6 @@
 "==============================================================
 "    file: complete_parameter.vim
-"   brief: 
+"   brief:
 " VIM Version: 8.0
 "  author: tenfyzhong
 "   email: tenfy@tenfy.cn
@@ -217,7 +217,11 @@ function! cmp#complete(failed_insert) abort "{{{
   endif
 
   if filetype == 'javascript' && g:complete_parameter_use_typescript_for_javascript
-      let filetype = 'typescript'
+    let filetype = 'typescript'
+  endif
+
+  if filetype == 'typescriptreact.typescript'
+    let filetype = 'typescript'
   endif
 
   try
@@ -331,8 +335,8 @@ function! cmp#goto_next_param_keys(forward, content, current_col) abort "{{{
   let pos = a:current_col-1
   let scope_end = step > 0 ? -1 : len(a:content)
   if mode() ==# 'i'
-    while pos != scope_end && 
-          \(a:content[pos-1] =~# '['.delim.border_begin.']' || 
+    while pos != scope_end &&
+          \(a:content[pos-1] =~# '['.delim.border_begin.']' ||
           \ a:content[pos-1] ==# ' ')
       let pos -= 1
       if a:content[pos] =~# '['.delim.border_begin.']'
@@ -401,15 +405,15 @@ function! cmp#goto_next_param(forward) abort "{{{
   let pos = current_col - 1
 
   let parameter_delim = ftfunc.parameter_delim()
-  if !a:forward && &selection==#'exclusive' && 
-        \(match(parameter_delim, content[pos])!=-1 || 
+  if !a:forward && &selection==#'exclusive' &&
+        \(match(parameter_delim, content[pos])!=-1 ||
         \ match(ftfunc.parameter_end(), content[pos])!=-1)
     let current_col -= 1
     let pos -= 1
   endif
 
   " if the selected is an object and the cursor char is an border_end
-  " go back to border_begin and it can select the item in the object. 
+  " go back to border_begin and it can select the item in the object.
   if mode() == 'n' && match(border_end, content[pos]) != -1
     normal %
     let current_col = col('.')
@@ -427,9 +431,9 @@ endfunction "}}}
 " forward: down or up
 " [success, item, next_index, old_item_len]
 function! cmp#next_overload_content(items, current_index, current_line, complete_pos, forward) abort "{{{
-  if len(a:items) <= 1 || 
-        \a:current_index >= len(a:items) || 
-        \empty(a:current_line) || 
+  if len(a:items) <= 1 ||
+        \a:current_index >= len(a:items) ||
+        \empty(a:current_line) ||
         \len(a:current_line) < a:complete_pos[1]
     return [0]
   endif
@@ -480,10 +484,10 @@ function! cmp#overload_next(forward) abort "{{{
   let current_index = s:complete_parameter['index']
   let current_line = getline(current_line)
   let result = cmp#next_overload_content(
-        \s:complete_parameter['items'], 
-        \current_index, 
-        \current_line, 
-        \s:complete_parameter['complete_pos'], 
+        \s:complete_parameter['items'],
+        \current_index,
+        \current_line,
+        \s:complete_parameter['complete_pos'],
         \a:forward)
   if result[0] == 0
     call <SID>debug_log('get overload content failed')
@@ -603,7 +607,7 @@ endfunction "}}}
 " pos: base 0
 function! cmp#parameter_position(content, current_col, delim, border_begin, border_end, step) abort "{{{
   "{{{2
-  if empty(a:content) || 
+  if empty(a:content) ||
         \a:current_col==0 ||
         \empty(a:delim) ||
         \empty(a:border_begin) ||
@@ -668,7 +672,7 @@ function! cmp#parameter_position(content, current_col, delim, border_begin, bord
   while pos != end "{{{2
     if step < 0
       if pos + step != end && a:content[pos+step] == '\'
-        let pos += 2*step 
+        let pos += 2*step
         continue
       endif
     endif
@@ -692,7 +696,7 @@ function! cmp#parameter_position(content, current_col, delim, border_begin, bord
       if step > 0
         if stack.len() > 1
           " if stack more than 1, current maybe in the nest scope, ignore it
-          let pos += step 
+          let pos += step
           continue
         endif
         let pos += step
@@ -710,7 +714,7 @@ function! cmp#parameter_position(content, current_col, delim, border_begin, bord
         " backword
         " if stack is empty, we need to find the first begin or delim
         " if stack more than 1, current maybe in the nest scope, ignore it
-        if stack.len() != 1 
+        if stack.len() != 1
           let pos += step
           continue
         else
@@ -840,7 +844,7 @@ endfunction "}}}
 
 function! s:error_log(msg) abort "{{{
   if g:complete_parameter_log_level <= 4
-    echohl ErrorMsg 
+    echohl ErrorMsg
     call <SID>log('ERROR', a:msg)
     echohl None
   endif
